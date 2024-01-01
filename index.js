@@ -1,14 +1,21 @@
-const express = require('express');
-const app = express();
 const port = 1200;
+const express = require('express');
+require('./config/connection');
+const { signup } = require('./controllers/UserController');
 
-const { getUser, getUserDetails } = require('./controllers/user');
+const app = express();
+const cors = require('cors');
+
+app.use(cors())
+app.use(express.json());
 
 
 
 
-app.get("/", getUser);
-app.get("/getUserDetails", getUserDetails);
+////////////// All routes /////////////////
+
+// signup
+app.post("/api/signup", signup);
 
 
 
