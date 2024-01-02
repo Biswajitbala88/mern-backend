@@ -73,5 +73,27 @@ const deleteProduct = async (req, resp)=>{
   }
 }
 
+// update product
+const updareProduct = async (req, resp)=>{
+  try{
+    const getId = req.params.id;
+    const updateData = req.body;
+
+    // Update the product in the database
+    const updateProduct = await ProductModel.findByIdAndUpdate(
+      getId,
+      updateData,
+      { new: true } // To return the updated document
+    );
+    if(!updateProduct){
+      resp.status(400).json({ message: "Product not found" });
+    }
+    resp.status(200).json({ message: "Product update successfully", product: updateProduct });
+  } catch (error) {
+    resp.status(500).json({ message: "Getting error while product update", error: message.error });
+  }
+
+}
+
 // Export the signup function
-module.exports = { addProduct, getAllProducts, getProductDetails, deleteProduct };
+module.exports = { addProduct, getAllProducts, getProductDetails, deleteProduct, updareProduct };

@@ -2,7 +2,7 @@ const port = 1200;
 const express = require('express');
 require('./config/connection');
 const { signup, signin } = require('./controllers/UserController');
-const { addProduct, getAllProducts, getProductDetails, deleteProduct } = require('./controllers/ProductController');
+const { addProduct, getAllProducts, getProductDetails, deleteProduct, updareProduct } = require('./controllers/ProductController');
 
 const app = express();
 const cors = require('cors');
@@ -26,9 +26,11 @@ app.post("/api/add-product", addProduct);
 app.get("/api/all-product", getAllProducts);
 // product-details
 app.get("/api/product-details/:id", getProductDetails);
-
 // product-details
 app.delete("/api/product-delete/:id", deleteProduct);
+// update-product
+app.put("/api/update-product/:id", updareProduct);
+
 
 
 
