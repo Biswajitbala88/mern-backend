@@ -9,6 +9,8 @@ const express = require('express');
 const { signup, signin } = require('./controllers/UserController');
 const { addProduct, getAllProducts, getProductDetails, deleteProduct, updareProduct } = require('./controllers/ProductController');
 
+const { addCategory } = require('./controllers/CategoryController');
+
 const app = express();
 const cors = require('cors');
 
@@ -38,6 +40,11 @@ app.get("/api/product-details/:id", getProductDetails);
 app.delete("/api/product-delete/:id", deleteProduct);
 // update-product
 app.put("/api/update-product/:id", updareProduct);
+
+
+// add-category
+app.post("/api/add-category", addCategory);
+
 
 
 
