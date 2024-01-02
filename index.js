@@ -1,6 +1,11 @@
 const port = 1200;
+
+// DB connection
+const mongoDbUrl = "mongodb://localhost:27017/mern";
+const connectDB = require("./config/connection");
+connectDB(mongoDbUrl);
+
 const express = require('express');
-require('./config/connection');
 const { signup, signin } = require('./controllers/UserController');
 const { addProduct, getAllProducts, getProductDetails, deleteProduct, updareProduct } = require('./controllers/ProductController');
 
@@ -9,6 +14,9 @@ const cors = require('cors');
 
 app.use(cors())
 app.use(express.json());
+
+
+
 
 
 
