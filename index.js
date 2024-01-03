@@ -6,7 +6,6 @@ const connectDB = require("./config/connection");
 connectDB(mongoDbUrl);
 
 const express = require('express');
-const { signup, signin } = require('./controllers/UserController');
 const { addProduct, getAllProducts, getProductDetails, deleteProduct, updareProduct } = require('./controllers/ProductController');
 
 const { addCategory, getAllCategories } = require('./controllers/CategoryController');
@@ -25,10 +24,7 @@ app.use(express.json());
 
 ////////////// All routes /////////////////
 
-// signup
-app.post("/api/signup", signup);
-// signin
-app.post("/api/signin", signin);
+
 
 // add-product
 app.post("/api/add-product", addProduct);
