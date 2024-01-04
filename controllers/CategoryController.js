@@ -38,7 +38,21 @@ const getAllCategories = async (req, resp)=>{
   }
 }
 
+// delete category
+const deleteCategory = async (req, resp)=>{
+  try{
+    const getId = req.params.id;
+    const getDeleteInfo = await CategoryModel.deleteOne({ _id: getId });
+    if(getDeleteInfo.deletedCount === 0){
+      resp.status(400).json({ message: "category not found" });
+    }
+    resp.status(200).json({ message: "category Deleted", category: getDeleteInfo});
+  } catch (error) {
+    resp.status(500).json({ message: "Getting Error while category deleing", error: message.error });
+  }
+}
 
 
 
-module.exports = { addCategory, getAllCategories };
+
+module.exports = { addCategory, getAllCategories, deleteCategory };
