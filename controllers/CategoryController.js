@@ -38,6 +38,28 @@ const getAllCategories = async (req, resp)=>{
   }
 }
 
+// update category
+const updateCategory = async (req, resp)=>{
+  try{
+    const getId = req.params.id;
+    const updateData = req.body;
+
+    // Update the category in the database
+    const updateCategory = await CategoryModel.findByIdAndUpdate(
+      getId,
+      updateData,
+      { new: true } // To return the updated document
+    );
+    if(!updateCategory){
+      resp.status(400).json({ message: "category not found" });
+    }
+    resp.status(200).json({ message: "category update successfully", category: updateCategory });
+  } catch (error) {
+    resp.status(500).json({ message: "Getting error while category update", error: message.error });
+  }
+
+}
+
 // delete category
 const deleteCategory = async (req, resp)=>{
   try{
@@ -55,4 +77,4 @@ const deleteCategory = async (req, resp)=>{
 
 
 
-module.exports = { addCategory, getAllCategories, deleteCategory };
+module.exports = { addCategory, getAllCategories, deleteCategory, updateCategory };
