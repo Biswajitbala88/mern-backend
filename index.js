@@ -6,9 +6,12 @@ const connectDB = require("./config/connection");
 connectDB(mongoDbUrl);
 
 const express = require('express');
-const { addProduct, getAllProducts, getProductDetails, deleteProduct, updareProduct } = require('./controllers/ProductController');
 
-const { addCategory, getAllCategories } = require('./controllers/CategoryController');
+const UserRoute = require('./routes/UserRoute');
+const ProductRoute = require('./routes/ProductRoute');
+const CategoryRoute = require('./routes/CategoryRoute');
+
+
 
 const app = express();
 const cors = require('cors');
@@ -25,23 +28,11 @@ app.use(express.json());
 ////////////// All routes /////////////////
 
 
-
-// add-product
-app.post("/api/add-product", addProduct);
-// all-product
-app.get("/api/all-product", getAllProducts);
-// product-details
-app.get("/api/product-details/:id", getProductDetails);
-// product-details
-app.delete("/api/product-delete/:id", deleteProduct);
-// update-product
-app.put("/api/update-product/:id", updareProduct);
+app.use('/', UserRoute);
+app.use('/product/', ProductRoute);
+app.use('/category/', CategoryRoute);
 
 
-// add-category
-app.post("/api/add-category", addCategory);
-// all-categories
-app.get("/api/all-categories", getAllCategories);
 
 
 

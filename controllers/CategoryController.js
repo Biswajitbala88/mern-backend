@@ -16,7 +16,7 @@ const addCategory = async (req, resp)=>{
       const saveCategory = await newCategory.save();
       resp.status(200).json({ message: "Category created successfully", category: saveCategory });
     }else{
-      resp.status(400).json("Same category already exist");
+      resp.status(400).json({ message: "Same category already exist" });
     }
 
   } catch (error) {
@@ -28,13 +28,11 @@ const addCategory = async (req, resp)=>{
 const getAllCategories = async (req, resp)=>{
   try{
     const categories = await CategoryModel.find({});
-    console.log(categories.length);
     if(categories.length>0){
       resp.status(200).json({ message: "Categories found successsfully", categories: categories });
     }else{
       resp.status(400).json({ message: "No category found" });
     }
-
   } catch (error) {
     resp.status(500).json({ message: "Error getting all categories", error: message.error });
   }
