@@ -9,6 +9,7 @@ const express = require('express');
 const UserRoute = require('./routes/UserRoute');
 const ProductRoute = require('./routes/ProductRoute');
 const CategoryRoute = require('./routes/CategoryRoute');
+const CartRoute = require('./routes/CartRoute');
 
 const app = express();
 const cors = require('cors');
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/', UserRoute);
 app.use('/product/', ProductRoute);
 app.use('/category/', CategoryRoute);
+app.use('/cart/', CartRoute);
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);

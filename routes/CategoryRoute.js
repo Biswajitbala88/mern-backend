@@ -18,4 +18,3 @@ router.put('/:id', updateCategory);
 
 module.exports = router;
 
-
