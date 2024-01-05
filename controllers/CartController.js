@@ -20,5 +20,19 @@ const createCart = async (req, resp)=>{
   
   }
 
+  // get all cart
+const getAllCart = async (req, resp)=>{
+    try{
+      const carts = await CartModel.find({});
+      if(carts.length>0){
+        resp.status(200).json({ message: "Cart found successsfully", cart: carts });
+      }else{
+        resp.status(400).json({ message: "No cart found" });
+      }
+    } catch (error) {
+      resp.status(500).json({ message: "Error getting all cart", error: message.error });
+    }
+  }
 
-module.exports = { createCart };
+
+module.exports = { createCart, getAllCart };
