@@ -14,13 +14,11 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         reuired: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
+    }
 
-});
+},
+{ timestamps: true }
+);
 
 const UserModel = mongoose.model('User', userSchema);
 

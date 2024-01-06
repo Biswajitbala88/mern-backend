@@ -1,3 +1,4 @@
+const CryptoJS = require("crypto-js");
 const express = require('express');
 const UserModel = require('../models/UserModel');
 
@@ -13,12 +14,13 @@ const signup = async (req, resp) => {
     if (existingUser) {
       return resp.status(400).json({ message: 'User already exists' });
     }
+    const encryptedPassword = CryptoJS.AES.encrypt(password, process.env.PASSWORD_SEC).toString();
 
     // Create a new user instance
     const newUser = new UserModel({
       name,
       email,
-      password,
+      password: encryptedPassword
     });
 
     // Save the new user to the database
@@ -41,10 +43,13 @@ const signin = async (req, resp)=>{
     if (!existingUser) {
       return resp.status(404).json({ message: 'User not found' });
     }
+    
+    const decryptedPassword = CryptoJS.AES.decrypt(existingUser.password, process.env.PASSWORD_SEC);
+    const originalText = decryptedPassword.toString(CryptoJS.enc.Utf8);
+    // console.log(originalText);
 
     // Check if the entered password matches the stored hashed password
-    // const isPasswordValid = await existingUser.(password);
-    if (existingUser.password !== password) {
+    if (originalText !== password) {
       return resp.status(401).json({ message: 'Invalid password' });
     }
     // Password is valid - User successfully logged in

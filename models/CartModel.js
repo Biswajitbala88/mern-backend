@@ -12,13 +12,10 @@ const CartSchema = new mongoose.Schema({
     quantity: {
         type: String,
         required: true,
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-
-});
+    }
+},
+{ timestamps: true }
+);
 
 const CartModel = mongoose.model('Cart', CartSchema);
 module.exports = CartModel;
