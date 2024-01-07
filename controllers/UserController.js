@@ -1,6 +1,7 @@
 const CryptoJS = require("crypto-js");
 const express = require('express');
 const UserModel = require('../models/UserModel');
+const jwt = require('jsonwebtoken');
 
 
 // Define signup function
@@ -58,8 +59,12 @@ const signin = async (req, resp)=>{
     const userWithoutPassword = existingUser.toObject();
     delete userWithoutPassword.password;
 
+    const accessToken = jwt.sign({
+      id: userWithoutPassword._id,
+      isAdmin: userWithoutPassword.isAdmin
+    }, process.env.JWT_SEC, {expiresIn: "3d"});
 
-    resp.status(200).json({ message: 'User logged in successfully', user: userWithoutPassword });
+    resp.status(200).json({ message: 'User logged in successfully', user: { ...userWithoutPassword, accessToken: accessToken } });
   } catch (error) {
     resp.status(500).json({ message: 'Error logging in user', error: error.message });
   }
