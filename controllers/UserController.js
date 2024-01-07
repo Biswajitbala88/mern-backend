@@ -1,8 +1,8 @@
 const CryptoJS = require("crypto-js");
+const jwt = require('jsonwebtoken');
 const express = require('express');
 const UserModel = require('../models/UserModel');
-const jwt = require('jsonwebtoken');
-
+const { verifyTokenAndAuthorization } = require('../routes/verifyToken');
 
 // Define signup function
 const signup = async (req, resp) => {
@@ -71,5 +71,33 @@ const signin = async (req, resp)=>{
 
 }
 
+// update user
+const updateUser = async (req, resp)=>{
+  try{
+    verifyTokenAndAuthorization(req, resp, async () => {
+      const getId = req.params.id;
+      const updateData = req.body;
+
+      // Update the category in the database
+      const updateUser = await UserModel.findByIdAndUpdate(
+        getId,
+        updateData,
+        { new: true } // To return the updated document
+      );
+      if(!updateUser){
+        resp.status(400).json({ message: "User not found" });
+      }
+      resp.status(200).json({ message: "User update successfully", user: updateUser });
+      
+    });
+    
+  } catch (error) {
+    resp.status(500).json({ message: "Getting error while User update", error: message.error });
+  }
+}
+
+
+
+
 // Export the signup function
-module.exports = { signup, signin };
+module.exports = { signup, signin, updateUser };
