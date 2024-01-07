@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { signup, signin, updateUser } = require('../controllers/UserController');
+const { signup, signin, updateUser, getAllUser } = require('../controllers/UserController');
 
 
 
@@ -10,6 +10,8 @@ router.post("/api/signup", signup);
 router.post("/api/signin", signin);
 
 router.put("/api/update-user/:id", updateUser);
+
+router.get("/api/user", getAllUser);
 
 
 module.exports = router;

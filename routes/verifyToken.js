@@ -23,10 +23,21 @@ const verifyTokenAndAuthorization = (req, resp, next)=>{
         if(req.data.id == req.params.id || req.data.isAdmin){
             next();
         }else{
-            resp.status().json({ message: "You are not allowed to do that." });
+            resp.status(403).json({ message: "You are not allowed to do that." });
+        }
+    }); 
+}
+
+const verifyTokenAndAdmin = (req, resp, next)=>{
+    verifyToken(req, resp, ()=>{
+        if(req.data.isAdmin){
+            next();
+        }else{
+            resp.status(403).json({ message: "You are not allowed to do that." });
         }
     }); 
 }
 
 
-module.exports = { verifyToken, verifyTokenAndAuthorization };
+
+module.exports = { verifyToken, verifyTokenAndAuthorization, verifyTokenAndAdmin };

@@ -64,7 +64,7 @@ const updateCategory = async (req, resp)=>{
 const deleteCategory = async (req, resp)=>{
   try{
     const getId = req.params.id;
-    const getDeleteInfo = await CategoryModel.deleteOne({ _id: getId });
+    const getDeleteInfo = await CategoryModel.findByIdAndDelete(getId);
     if(getDeleteInfo.deletedCount === 0){
       resp.status(400).json({ message: "category not found" });
     }

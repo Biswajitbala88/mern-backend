@@ -2,7 +2,7 @@ const CryptoJS = require("crypto-js");
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const UserModel = require('../models/UserModel');
-const { verifyTokenAndAuthorization } = require('../routes/verifyToken');
+const { verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('../routes/verifyToken');
 
 // Define signup function
 const signup = async (req, resp) => {
@@ -96,8 +96,26 @@ const updateUser = async (req, resp)=>{
   }
 }
 
+// get all user
+const getAllUser = async (req, resp) => {
+  try {
+    verifyTokenAndAdmin(req, resp, async () => {
+      const allUser = await UserModel.find();
+      if (allUser.length > 0) {
+        resp.status(200).json({ message: "Users found successfully", users: allUser });
+      } else {
+        resp.status(404).json({ message: "Users not found" });
+      }
+    });
+  } catch (error) {
+    resp.status(500).json({ message: "Error retrieving all users", error: error.message });
+  }
+};
+
+
+
 
 
 
 // Export the signup function
-module.exports = { signup, signin, updateUser };
+module.exports = { signup, signin, updateUser, getAllUser };
