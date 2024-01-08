@@ -33,7 +33,7 @@ const addProduct = async (req, resp)=>{
 // get all product
 const getAllProducts = async (req, resp)=>{
   try{
-    const products = await ProductModel.find({});
+    const products = await ProductModel.find({}).sort({ _id: -1 }).limit(2);
     if(products.length>0){
       resp.status(200).json({ message: 'Product found successfully', product: products });
     }else{
