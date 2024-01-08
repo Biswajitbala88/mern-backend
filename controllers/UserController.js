@@ -112,10 +112,25 @@ const getAllUser = async (req, resp) => {
   }
 };
 
+// get user stats
+const userStats = async (req, resp)=>{
+  try{
+    const date = new Date();
+    const indDate = date.toLocaleString('en-IN');
+    // const lastyear = new Date
+
+
+    console.log(indDate);
+    resp.send(indDate);
+  } catch (error) {
+    resp.status(500).json({ message: "Error getting user stats", error: error });
+  }
+}
+
 
 
 
 
 
 // Export the signup function
-module.exports = { signup, signin, updateUser, getAllUser };
+module.exports = { signup, signin, updateUser, getAllUser, userStats };
