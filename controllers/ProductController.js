@@ -95,5 +95,36 @@ const updareProduct = async (req, resp)=>{
 
 }
 
+
+// get product stats
+const productStats = async (req, resp) => {
+  try {
+    const date = new Date();
+    const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
+
+    const data = await ProductModel.aggregate([
+      {
+        $match: { createdAt: { $gte: lastYear } }
+      },
+      {
+        $project: {
+          month: { $month: "$createdAt" },
+          year: { $year: "$createdAt" },
+        }
+      },
+      {
+        $group: {
+          _id: { $concat: [{ $toString: "$month" }, "-", { $toString: "$year" }] },
+          total: { $sum: 1 },
+        }
+      }
+    ]).exec();
+
+    resp.status(200).json({ message: "Product stats found", stats: data });
+  } catch (error) {
+    resp.status(500).json({ message: "Error getting user stats", error: error });
+  }
+}
+
 // Export the signup function
-module.exports = { addProduct, getAllProducts, getProductDetails, deleteProduct, updareProduct };
+module.exports = { addProduct, getAllProducts, getProductDetails, deleteProduct, updareProduct, productStats };

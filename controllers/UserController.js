@@ -113,19 +113,36 @@ const getAllUser = async (req, resp) => {
 };
 
 // get user stats
-const userStats = async (req, resp)=>{
-  try{
+const userStats = async (req, resp) => {
+  try {
     const date = new Date();
-    const indDate = date.toLocaleString('en-IN');
-    // const lastyear = new Date
+    const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
 
+    const data = await UserModel.aggregate([
+      {
+        $match: { createdAt: { $gte: lastYear } }
+      },
+      {
+        $project: {
+          month: { $month: "$createdAt" },
+          year: { $year: "$createdAt" },
+        }
+      },
+      {
+        $group: {
+          _id: { $concat: [{ $toString: "$month" }, "-", { $toString: "$year" }] },
+          total: { $sum: 1 },
+        }
+      }
+    ]).exec();
 
-    console.log(indDate);
-    resp.send(indDate);
+    resp.status(200).json({ message: "User stats found", stats: data });
   } catch (error) {
-    resp.status(500).json({ message: "Error getting user stats", error: error });
+    resp.status(500).json({ message: "Error getting user stats", error: error.message });
   }
 }
+
+
 
 
 
