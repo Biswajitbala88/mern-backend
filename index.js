@@ -17,7 +17,7 @@ app.use(cors())
 app.use(express.json());
 
 ////////////// All routes /////////////////
-app.use('/', UserRoute);
+app.use('/user/', UserRoute);
 app.use('/product/', ProductRoute);
 app.use('/category/', CategoryRoute);
 app.use('/cart/', CartRoute);
