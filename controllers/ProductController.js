@@ -33,7 +33,20 @@ const addProduct = async (req, resp)=>{
 // get all product
 const getAllProducts = async (req, resp)=>{
   try{
-    const products = await ProductModel.find({}).sort({ _id: -1 }).limit(2);
+    const qNew = req.query.new;
+    const qCategory = req.query.category;
+    let products;
+    if(qNew){
+      products = await ProductModel.find({}).sort({ _id: -1 }).limit(5);
+    } else if(qCategory){
+      products = await ProductModel.find({
+        category: {
+          $in: [qCategory],
+        }
+      });
+    } else{
+      products = await ProductModel.find();
+    }
     if(products.length>0){
       resp.status(200).json({ message: 'Product found successfully', product: products });
     }else{
