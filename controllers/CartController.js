@@ -8,16 +8,27 @@ const createCart = async (req, resp)=>{
     try{
         const product_id = req.params.id;
         const { user_id, quantity } = req.body;
-        
-        const newCart = new CartModel({
-            user_id, product_id, quantity
-        });
-        const saveCart = await newCart.save();
-        resp.status(200).json({ message: "Cart created successfully", cart: saveCart });
+        let cart = await CartModel.findOne({ user_id });
+        if(cart){
+          const existingItem = cart.items.find(item => item.product_id === product_id);
+          if (existingItem) {
+              existingItem.quantity = quantity || 0;
+          } else {
+              // If the product is not in the cart, add it
+              cart.items.push({ product_id, quantity });
+          }
+          const saveCart = await cart.save();
+          resp.status(200).json({ message: "Cart created successfully", cart: saveCart });
+        }else{
+          const newCart = new CartModel({
+            user_id, items: [{ product_id, quantity }]
+          });
+          const saveCart = await newCart.save();
+          resp.status(200).json({ message: "Cart updated successfully", cart: saveCart });
+        }
     } catch (error) {
       resp.status(500).json({ message: "Getting error while create cart", error: message.error });
     }
-  
   }
 
   // get all cart
