@@ -1,11 +1,10 @@
 const CryptoJS = require("crypto-js");
 const jwt = require('jsonwebtoken');
-const express = require('express');
 const UserModel = require('../models/UserModel');
 const { verifyTokenAndAuthorization, verifyTokenAndAdmin } = require('../routes/verifyToken');
 
 // Define signup function
-const signup = async (req, resp) => {
+module.exports.signup = async (req, resp) => {
   try {
     // Retrieve data from request body
     const { name, email, password } = req.body;
@@ -34,7 +33,7 @@ const signup = async (req, resp) => {
 };
 
 
-const signin = async (req, resp)=>{
+module.exports.signin = async (req, resp)=>{
   try {
     // Retrieve data from request body
     const { email, password } = req.body;
@@ -72,7 +71,7 @@ const signin = async (req, resp)=>{
 }
 
 // update user
-const updateUser = async (req, resp)=>{
+module.exports.updateUser = async (req, resp)=>{
   try{
     verifyTokenAndAuthorization(req, resp, async () => {
       const getId = req.params.id;
@@ -97,7 +96,7 @@ const updateUser = async (req, resp)=>{
 }
 
 // get all user
-const getAllUser = async (req, resp) => {
+module.exports.getAllUser = async (req, resp) => {
   try {
     verifyTokenAndAdmin(req, resp, async () => {
       const allUser = await UserModel.find();
@@ -113,7 +112,7 @@ const getAllUser = async (req, resp) => {
 };
 
 // get user stats
-const userStats = async (req, resp) => {
+module.exports.userStats = async (req, resp) => {
   try {
     const date = new Date();
     const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
@@ -150,4 +149,4 @@ const userStats = async (req, resp) => {
 
 
 // Export the signup function
-module.exports = { signup, signin, updateUser, getAllUser, userStats };
+// module.exports = { signup, signin, updateUser, getAllUser, userStats };

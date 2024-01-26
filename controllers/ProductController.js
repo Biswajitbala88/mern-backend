@@ -2,7 +2,7 @@ const ProductModel = require('../models/ProductModel');
 
 
 // create product
-const addProduct = async (req, resp)=>{
+module.exports.addProduct = async (req, resp)=>{
   try{
     const {name, price, category, image, description} = req.body;
     // console.log(req.body);
@@ -31,7 +31,7 @@ const addProduct = async (req, resp)=>{
 }
 
 // get all product
-const getAllProducts = async (req, resp)=>{
+module.exports.getAllProducts = async (req, resp)=>{
   try{
     const qNew = req.query.new;
     const qCategory = req.query.category;
@@ -58,7 +58,7 @@ const getAllProducts = async (req, resp)=>{
 }
 
 // get product details 
-const getProductDetails = async (req, resp)=>{
+module.exports.getProductDetails = async (req, resp)=>{
   try{
     const getId = req.params.id;
     const productInfo = await ProductModel.findOne({_id: getId});
@@ -73,7 +73,7 @@ const getProductDetails = async (req, resp)=>{
 
 
 // delete product
-const deleteProduct = async (req, resp)=>{
+module.exports.deleteProduct = async (req, resp)=>{
   try{
     const getId = req.params.id;
     const getDeleteInfo = await ProductModel.deleteOne({ _id: getId });
@@ -87,7 +87,7 @@ const deleteProduct = async (req, resp)=>{
 }
 
 // update product
-const updareProduct = async (req, resp)=>{
+module.exports.updareProduct = async (req, resp)=>{
   try{
     const getId = req.params.id;
     const updateData = req.body;
@@ -110,7 +110,7 @@ const updareProduct = async (req, resp)=>{
 
 
 // get product stats
-const productStats = async (req, resp) => {
+module.exports.productStats = async (req, resp) => {
   try {
     const date = new Date();
     const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
@@ -140,4 +140,4 @@ const productStats = async (req, resp) => {
 }
 
 // Export the signup function
-module.exports = { addProduct, getAllProducts, getProductDetails, deleteProduct, updareProduct, productStats };
+// module.exports = { addProduct, getAllProducts, getProductDetails, deleteProduct, updareProduct, productStats };

@@ -2,7 +2,7 @@ const express = require('express');
 const CategoryModel = require('../models/CategoryModel');
 
 // create category 
-const addCategory = async (req, resp)=>{
+module.exports.addCategory = async (req, resp)=>{
   try{
     // get request data
     const { name, description } = req.body;
@@ -25,7 +25,7 @@ const addCategory = async (req, resp)=>{
 }
 
 // get all category
-const getAllCategories = async (req, resp)=>{
+module.exports.getAllCategories = async (req, resp)=>{
   try{
     const categories = await CategoryModel.find({});
     if(categories.length>0){
@@ -39,7 +39,7 @@ const getAllCategories = async (req, resp)=>{
 }
 
 // update category
-const updateCategory = async (req, resp)=>{
+module.exports.updateCategory = async (req, resp)=>{
   try{
     const getId = req.params.id;
     const updateData = req.body;
@@ -61,7 +61,7 @@ const updateCategory = async (req, resp)=>{
 }
 
 // delete category
-const deleteCategory = async (req, resp)=>{
+module.exports.deleteCategory = async (req, resp)=>{
   try{
     const getId = req.params.id;
     const getDeleteInfo = await CategoryModel.findByIdAndDelete(getId);
@@ -77,4 +77,4 @@ const deleteCategory = async (req, resp)=>{
 
 
 
-module.exports = { addCategory, getAllCategories, deleteCategory, updateCategory };
+// module.exports = { addCategory, getAllCategories, deleteCategory, updateCategory };

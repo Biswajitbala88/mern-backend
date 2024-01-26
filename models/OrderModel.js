@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const CartSchema = new mongoose.Schema({
+const OrderSchema = new mongoose.Schema({
     user_id: {
         type: String,
         reuired: true,

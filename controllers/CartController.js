@@ -4,7 +4,7 @@ const CartModel = require('../models/CartModel');
 
 // create cart
 
-const createCart = async (req, resp)=>{
+module.exports.createCart = async (req, resp)=>{
   try{
       const product_id = req.params.id;
       const { user_id, quantity } = req.body;
@@ -33,7 +33,7 @@ const createCart = async (req, resp)=>{
 
 
 // update cart
-const updateCart = async (req, resp) => {
+module.exports.updateCart = async (req, resp) => {
   try {
     const { user_id, product_id, quantity } = req.body;
     // Find the cart based on user_id
@@ -58,7 +58,7 @@ const updateCart = async (req, resp) => {
 
 
 // get all cart
-const getAllCart = async (req, resp)=>{
+module.exports.getAllCart = async (req, resp)=>{
 try{
   const carts = await CartModel.find({});
   if(carts.length>0){
@@ -72,7 +72,7 @@ try{
 }
 
 // get user wise cart
-const getUserCart = async (req, resp)=>{
+module.exports.getUserCart = async (req, resp)=>{
 try{
     const user_id = req.body.user_id;
     const cart = await CartModel.findOne({user_id});
@@ -84,7 +84,7 @@ try{
 }
 
 // get cart stats
-const cartStats = async (req, resp) => {
+module.exports.cartStats = async (req, resp) => {
   try {
     const date = new Date();
     const lastYear = new Date(date.setFullYear(date.getFullYear() - 1));
@@ -114,4 +114,4 @@ const cartStats = async (req, resp) => {
 }
 
 
-module.exports = { createCart, getAllCart, cartStats, getUserCart, updateCart };
+// module.exports = { createCart, getAllCart, cartStats, getUserCart, updateCart };
